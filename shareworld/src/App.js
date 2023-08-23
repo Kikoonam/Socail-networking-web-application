@@ -4,15 +4,17 @@ import SignIn from './pages/Signin';
 import Dashboard from './pages/Dashborad';
 import RootLayout from './pages/Root';
 import ErrorPage from './pages/Error';
+import HomePage from './pages/HomePage';
+import './styles/app.css'
 
 const router = createBrowserRouter([
   {path:'/',
    element:<RootLayout/>,
    errorElement:<ErrorPage/>,
    children:[
-    {path: '/', element:<Login/>},
     {path:'/signin', element:<SignIn/>},
-    {path:'/dashboard',element:<Dashboard/>}
+    {path:'/dashboard',element:<Dashboard/>},
+    {path:'auth',element:<Login/>}
    ]
   }
   
