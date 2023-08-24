@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useState,useContext,useEffect} from "react";
-import FirebaseContext from '../context/firebase'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../lib/firebase'
 
 
 
 const Login =()=>{
+   const navigate = useNavigate();
    const [emailAddress,setEmailAddress] = useState('');
    const [password,setPassword] = useState('');
-
+   
    const [error, setError] = useState('');
    const isInvalid = password === '' || emailAddress === '';
 
@@ -15,6 +17,17 @@ const Login =()=>{
     document.title = 'Login';
   }, []);
   
+  const handleLogin = async (event) => {
+    event.preventDefault();
+      await signInWithEmailAndPassword(auth, emailAddress, password).then((userCredential)=>{
+        const user = userCredential.user;
+        navigate('/dashboard');
+      })
+    . catch (error=>{
+        setError(error.message);
+    })
+      
+  };
 
     return (
         <div className="container flex mx-auto max-w-screen-md items-center h-screen">
@@ -27,7 +40,7 @@ const Login =()=>{
             <img src="/images/logo.png" alt="logo" className="mt-2 w-6/12 mb-4" />
           </h1>
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
-          <form>
+          <form onSubmit={handleLogin} method="POST">
             <input 
              aria-label="Enter your email address"
              type="text"
