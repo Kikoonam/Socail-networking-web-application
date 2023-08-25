@@ -5,7 +5,7 @@ const MainNavigation =()=>{
         <nav>
             <ul>
                 <li><Link to={'/dashboard'}>Home</Link></li>
-                <li><Link to={'/'}>Login</Link></li>
+                <li><Link to={'/auth'}>Login</Link></li>
                 <li><Link to={'./signin'}>SignIn</Link></li>
             </ul>
         </nav>
