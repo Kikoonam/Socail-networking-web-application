@@ -1,7 +1,7 @@
 import { Link,useNavigate, useParams } from "react-router-dom";
 import { useState,useContext,useEffect} from "react";
 import { createUserWithEmailAndPassword ,updateProfile } from "firebase/auth";
-import {auth, firestore} from '../lib/firebase'
+import { auth, firestore} from '../lib/firebase'
 import { doesUsernameExist } from "../services/firebase";
 import { doc, setDoc } from "firebase/firestore"; 
 
@@ -27,10 +27,7 @@ const Login =()=>{
     if (!usernameExists) {
         try{
             const createdUserResult = await createUserWithEmailAndPassword(auth, emailAddress, password);
-            await updateProfile(createdUserResult.user, {
-                displayName: username
-              });
-              setDoc(doc(firestore, "users",id), {
+             await setDoc(doc(firestore, "users",createdUserResult.user.uid), {
                 userId: createdUserResult.user.uid,
                 username: username.toLowerCase(),
                 fullName,
@@ -52,7 +49,6 @@ const Login =()=>{
       setError('That username is already taken, please try another.');
     }
      
-      
   };
 
     return (
